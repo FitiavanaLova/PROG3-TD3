@@ -7,6 +7,7 @@ public class Ingredient {
     private Double price;
     private Dish dish;
     private Double quantity;
+    private String unit; // Unité de mesure (KG, L, UNIT, etc.)
 
     public Double getQuantity() {
         return quantity;
@@ -18,7 +19,13 @@ public class Ingredient {
 
     public Ingredient() {
     }
+    public String getUnit() {
+        return unit;
+    }
 
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
     public Ingredient(Integer id) {
         this.id = id;
     }
