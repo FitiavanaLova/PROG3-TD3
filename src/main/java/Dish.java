@@ -334,7 +334,7 @@ public class Dish {
         if (ingredients != null && !ingredients.isEmpty()) {
             for (int i = 0; i < ingredients.size(); i++) {
                 if (i > 0) json.append(",");
-                json.append(ingredients.get(i).toJson());
+                json.append(ingredients.get(i).toString());
             }
         }
         

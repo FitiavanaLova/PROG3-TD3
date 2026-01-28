@@ -1,33 +1,23 @@
-import java.util.Objects;
+import java.time.Instant;
+import java.util.List;
 
 public class Ingredient {
+
+    // --- Champs principaux (table ingredient) ---
     private Integer id;
     private String name;
     private CategoryEnum category;
     private Double price;
-    private Dish dish;
-    private Double quantity;
-    private String unit; // Unité de mesure (KG, L, UNIT, etc.)
 
-    public Double getQuantity() {
-        return quantity;
-    }
+    // --- Gestion des stocks ---
+    private List<StockMovement> stockMovementList;
 
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
-    }
+    // --- Champs utilisés dans dish_ingredient ---
+    private Double quantity;   // quantité requise pour un plat
+    private String unit;       // unité utilisée dans dish_ingredient
 
+    // --- Constructeurs ---
     public Ingredient() {
-    }
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-    public Ingredient(Integer id) {
-        this.id = id;
     }
 
     public Ingredient(Integer id, String name, CategoryEnum category, Double price) {
@@ -37,10 +27,7 @@ public class Ingredient {
         this.price = price;
     }
 
-    public String getDishName() {
-        return dish == null ? null : dish.getName();
-    }
-
+    // --- Getters & Setters principaux ---
     public Integer getId() {
         return id;
     }
@@ -73,35 +60,53 @@ public class Ingredient {
         this.price = price;
     }
 
-    public Dish getDish() {
-        return dish;
+    // --- Stock movements ---
+    public List<StockMovement> getStockMovementList() {
+        return stockMovementList;
     }
 
-    public void setDish(Dish dish) {
-        this.dish = dish;
+    public void setStockMovementList(List<StockMovement> stockMovementList) {
+        this.stockMovementList = stockMovementList;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Ingredient that = (Ingredient) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && category == that.category && Objects.equals(price, that.price) && Objects.equals(dish, that.dish);
+    // --- Dish_ingredient fields ---
+    public Double getQuantity() {
+        return quantity;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, category, price, dish);
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return "Ingredient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category=" + category +
-                ", price=" + price +
-                ", dishName=" + getDishName() +
-                ", quantity=" + quantity +
-                '}';
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    // -------------------------------------------------
+    //  Calcul du niveau de stock à une date donnée
+    // -------------------------------------------------
+    public Double getStockValueAt(Instant t) {
+        double stock = 0.0;
+
+        if (stockMovementList == null || t == null) {
+            return stock;
+        }
+
+        for (StockMovement sm : stockMovementList) {
+            if (sm.getCreation_datetime().toInstant().isBefore(t)
+                    || sm.getCreation_datetime().toInstant().equals(t)) {
+
+                if (sm.getMouvement_Type() == Mouvement_TypeEnum.IN) {
+                    stock += sm.getQuantity();
+                } else {
+                    stock -= sm.getQuantity();
+                }
+            }
+        }
+        return stock;
     }
 }

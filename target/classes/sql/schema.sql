@@ -47,3 +47,4 @@ ALTER TABLE ingredient DROP COLUMN IF EXISTS id_dish;
 
 -- Suppression de l'ancienne colonne required_quantity dans ingredient
 ALTER TABLE ingredient DROP COLUMN IF EXISTS required_quantity;
+
