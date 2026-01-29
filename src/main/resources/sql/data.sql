@@ -1,17 +1,17 @@
-insert into dish (id, name, dish_type)
-values (1, 'Salaide fraîche', 'STARTER'),
-       (2, 'Poulet grillé', 'MAIN'),
-       (3, 'Riz aux légumes', 'MAIN'),
-       (4, 'Gâteau au chocolat ', 'DESSERT'),
-       (5, 'Salade de fruits', 'DESSERT');
+insert into dish (id, name, dish_type, selling_price)
+values (1, 'Salaide fraîche', 'STARTER', 3500.0),
+       (2, 'Poulet grillé', 'MAIN', 12000.0),
+       (3, 'Riz aux légumes', 'MAIN', null),
+       (4, 'Gâteau au chocolat ', 'DESSERT', 8000.0),
+       (5, 'Salade de fruits', 'DESSERT', null);
 
 
-insert into ingredient (id, name, category, price, id_dish)
-values (1, 'Laitue', 'VEGETABLE', 800.0, 1),
-       (2, 'Tomate', 'VEGETABLE', 600.0, 1),
-       (3, 'Poulet', 'ANIMAL', 4500.0, 2),
-       (4, 'Chocolat ', 'OTHER', 3000.0, 4),
-       (5, 'Beurre', 'DAIRY', 2500.0, 4);
+insert into ingredient (id, name, category, price)
+values (1, 'Laitue', 'VEGETABLE', 800.0),
+       (2, 'Tomate', 'VEGETABLE', 600.0),
+       (3, 'Poulet', 'ANIMAL', 4500.0),
+       (4, 'Chocolat ', 'OTHER', 3000.0),
+       (5, 'Beurre', 'DAIRY', 2500.0);
 
 
 
@@ -24,16 +24,22 @@ set price = 6000.0
 where id = 2;
 
 
--- Insertion des données dans dish_ingredient selon le document
-INSERT INTO dish_ingredient (id_dish, id_ingredient, quantity_required, unit) VALUES
-(1, 1, 0.20, 'KG'),  -- Salade fraîche - Laitue
-(1, 2, 0.15, 'KG'),  -- Salade fraîche - Tomate
-(2, 3, 1.00, 'KG'),  -- Poulet grillé - Poulet
-(4, 4, 0.30, 'KG'),  -- Gâteau au chocolat - Chocolat
-(4, 5, 0.20, 'KG');  -- Gâteau au chocolat - Beurre
+insert into stock_movement(id, id_ingredient, quantity, type, unit, creation_datetime)
+values (1, 1, 5.0, 'IN', 'KG', '2024-01-05 08:00'),
+       (2, 1, 0.2, 'OUT', 'KG', '2024-01-06 12:00'),
+       (3, 2, 4.0, 'IN', 'KG', '2024-01-05 08:00'),
+       (4, 2, 0.15, 'OUT', 'KG', '2024-01-06 12:00'),
+       (5, 3, 10.0, 'IN', 'KG', '2024-01-04 09:00'),
+       (6, 3, 1.0, 'OUT', 'KG', '2024-01-06 13:00'),
+       (7, 4, 3.0, 'IN', 'KG', '2024-01-05 10:00'),
+       (8, 4, 0.3, 'OUT', 'KG', '2024-01-06 14:00'),
+       (9, 5, 2.5, 'IN', 'KG', '2024-01-05 10:00'),
+       (10, 5, 0.2, 'OUT', 'KG', '2024-01-06 14:00');
 
--- Mise à jour des prix de vente dans dish
-UPDATE dish SET selling_price = 3500.00 WHERE id = 1;  -- Salade fraîche
-UPDATE dish SET selling_price = 12000.00 WHERE id = 2; -- Poulet grillé
-UPDATE dish SET selling_price = 8000.00 WHERE id = 4;  -- Gâteau au chocolat
--- Les plats 3 et 5 gardent selling_price = NULL
+
+insert into dish_ingredient (id, id_dish, id_ingredient, required_quantity, unit)
+values (1, 1, 1, 0.2, 'KG'),
+       (2, 1, 2, 0.15, 'KG'),
+       (3, 2, 3, 1.0, 'KG'),
+       (4, 4, 4, 0.3, 'KG'),
+       (5, 4, 5, 0.2, 'KG');

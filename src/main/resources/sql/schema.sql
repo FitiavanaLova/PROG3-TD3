@@ -15,36 +15,65 @@ create table ingredient
     id       serial primary key,
     name     varchar(255),
     price    numeric(10, 2),
-    category ingredient_category,
-    id_dish  int references dish (id)
+    category ingredient_category
 );
 
 alter table dish
     add column if not exists price numeric(10, 2);
 
+alter table dish
+    rename column price to selling_price;
+
+alter table ingredient
+    drop column if exists id_dish;
 
 alter table ingredient
     add column if not exists required_quantity numeric(10, 2);
 
+alter table ingredient
+    drop column if exists required_quantity;
 
--- new_schema.sql
+create type unit as enum ('PCS', 'KG', 'L');
 
--- Ajout de la colonne selling_price (optionnelle) à la table dish
-ALTER TABLE dish ADD COLUMN IF NOT EXISTS selling_price NUMERIC(10, 2);
-
--- Création de la table DishIngredient pour la relation ManyToMany
-CREATE TABLE IF NOT EXISTS dish_ingredient (
-    id SERIAL PRIMARY KEY,
-    id_dish INTEGER NOT NULL REFERENCES dish(id) ON DELETE CASCADE,
-    id_ingredient INTEGER NOT NULL REFERENCES ingredient(id) ON DELETE CASCADE,
-    quantity_required NUMERIC(10, 2) NOT NULL,
-    unit VARCHAR(50) NOT NULL,
-    UNIQUE(id_dish, id_ingredient)
+create table if not exists dish_ingredient
+(
+    id                serial primary key,
+    id_ingredient     int,
+    id_dish           int,
+    required_quantity numeric(10, 2),
+    unit              unit,
+    foreign key (id_ingredient) references ingredient (id),
+    foreign key (id_dish) references dish (id)
 );
 
--- Suppression de l'ancienne colonne id_dish dans ingredient car elle n'est plus nécessaire
-ALTER TABLE ingredient DROP COLUMN IF EXISTS id_dish;
+create type movement_type as enum ('IN', 'OUT');
 
--- Suppression de l'ancienne colonne required_quantity dans ingredient
-ALTER TABLE ingredient DROP COLUMN IF EXISTS required_quantity;
+create table if not exists stock_movement
+(
+    id                serial primary key,
+    id_ingredient     int,
+    quantity          numeric(10, 2),
+    unit              unit,
+    type              movement_type,
+    creation_datetime timestamp without time zone,
+    foreign key (id_ingredient) references ingredient (id)
+);
 
+
+alter table ingredient
+    add column if not exists initial_stock numeric(10, 2);
+
+create table if not exists "order"
+(
+    id                serial primary key,
+    reference         varchar(255),
+    creation_datetime timestamp without time zone
+);
+
+create table if not exists dish_order
+(
+    id       serial primary key,
+    id_order int references "order" (id),
+    id_dish  int references dish (id),
+    quantity int
+);

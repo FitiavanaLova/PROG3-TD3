@@ -1,68 +1,65 @@
-import java.io.Serial;
-import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Objects;
 
 public class StockMovement {
-    private int id;
-    private int id_ingredient;
-    private Double quantity;
-    private Mouvement_TypeEnum mouvement_Type;
-    private UnitEnum unit;
-    private Timestamp creation_datetime;
+    private Integer id;
+    private MovementTypeEnum type;
+    private Instant creationDatetime;
+    private StockValue value;
 
-    public StockMovement(int id, int id_ingredient, Double quantity, Mouvement_TypeEnum mouvement_Type, UnitEnum unit, Timestamp creation_datetime) {
-        this.id = id;
-        this.id_ingredient = id_ingredient;
-        this.quantity = quantity;
-        this.mouvement_Type = mouvement_Type;
-        this.unit = unit;
-        this.creation_datetime = creation_datetime;
+    public StockMovement() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getId_ingredient() {
-        return id_ingredient;
+    public MovementTypeEnum getType() {
+        return type;
     }
 
-    public void setId_ingredient(int id_ingredient) {
-        this.id_ingredient = id_ingredient;
+    public void setType(MovementTypeEnum type) {
+        this.type = type;
     }
 
-    public Double getQuantity() {
-        return quantity;
+    public Instant getCreationDatetime() {
+        return creationDatetime;
     }
 
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
+    public void setCreationDatetime(Instant creationDatetime) {
+        this.creationDatetime = creationDatetime;
     }
 
-    public Mouvement_TypeEnum getMouvement_Type() {
-        return mouvement_Type;
+    public StockValue getValue() {
+        return value;
     }
 
-    public void setMouvement_Type(Mouvement_TypeEnum mouvement_Type) {
-        this.mouvement_Type = mouvement_Type;
+    public void setValue(StockValue value) {
+        this.value = value;
     }
 
-    public UnitEnum getUnit() {
-        return unit;
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof StockMovement that)) return false;
+        return Objects.equals(id, that.id)  && type == that.type && Objects.equals(creationDatetime, that.creationDatetime) && Objects.equals(value, that.value);
     }
 
-    public void setUnit(UnitEnum unit) {
-        this.unit = unit;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, creationDatetime, value);
     }
 
-    public Timestamp getCreation_datetime() {
-        return creation_datetime;
-    }
-
-    public void setCreation_datetime(Timestamp creation_datetime) {
-        this.creation_datetime = creation_datetime;
+    @Override
+    public String toString() {
+        return "StockMovement{" +
+                "id=" + id +
+                ", type=" + type +
+                ", creationDatetime=" + creationDatetime +
+                ", value=" + value +
+                '}';
     }
 }
