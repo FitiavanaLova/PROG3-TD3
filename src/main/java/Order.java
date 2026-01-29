@@ -8,6 +8,25 @@ public class Order {
     private Instant creationDatetime;
     private List<DishOrder> dishOrderList;
 
+    private OrderTypeEnum orderType;       // <-- nouveau
+    private OrderStatusEnum orderStatus;   // <-- nouveau
+
+    public OrderTypeEnum getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(OrderTypeEnum orderType) {
+        this.orderType = orderType;
+    }
+
+    public OrderStatusEnum getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatusEnum orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -47,7 +66,20 @@ public class Order {
                 ", reference='" + reference + '\'' +
                 ", creationDatetime=" + creationDatetime +
                 ", dishOrderList=" + dishOrderList +
+                ", orderType=" + orderType +
+                ", orderStatus=" + orderStatus +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Order order)) return false;
+        return Objects.equals(id, order.id) &&
+                Objects.equals(reference, order.reference) &&
+                Objects.equals(creationDatetime, order.creationDatetime) &&
+                Objects.equals(dishOrderList, order.dishOrderList) &&
+                orderType == order.orderType &&
+                orderStatus == order.orderStatus;
     }
 
     Double getTotalAmountWithoutVat() {
@@ -57,16 +89,9 @@ public class Order {
     Double getTotalAmountWithVat() {
         throw new RuntimeException("Not implemented");
     }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Order order)) return false;
-        return Objects.equals(id, order.id) && Objects.equals(reference, order.reference) && Objects.equals(creationDatetime, order.creationDatetime) && Objects.equals(dishOrderList, order.dishOrderList);
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(id, reference, creationDatetime, dishOrderList);
+        return Objects.hash(id, reference, creationDatetime, dishOrderList, orderType, orderStatus);
     }
+    
 }

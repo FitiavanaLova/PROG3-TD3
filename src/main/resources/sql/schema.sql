@@ -77,3 +77,14 @@ create table if not exists dish_order
     id_dish  int references dish (id),
     quantity int
 );
+
+-- Type de commande
+CREATE TYPE order_type AS ENUM ('EAT_IN', 'TAKE_AWAY');
+
+-- Statut de commande
+CREATE TYPE order_status AS ENUM ('CREATED', 'READY', 'DELIVERED');
+
+-- Ajouter les colonnes
+ALTER TABLE "order"
+ADD COLUMN IF NOT EXISTS order_type order_type DEFAULT 'EAT_IN',
+ADD COLUMN IF NOT EXISTS order_status order_status DEFAULT 'CREATED';

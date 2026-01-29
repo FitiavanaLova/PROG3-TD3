@@ -1,0 +1,16 @@
+/home/fy/mon_git/PROG3-TD3/src/main/java/CategoryEnum.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/DBConnection.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/DataRetriever.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/Dish.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/DishIngredient.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/DishOrder.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/DishTypeEnum.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/Ingredient.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/Main.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/MovementTypeEnum.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/Order.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/OrderStatusEnum.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/OrderTypeEnum.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/StockMovement.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/StockValue.java
+/home/fy/mon_git/PROG3-TD3/src/main/java/Unit.java
