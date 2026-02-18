@@ -88,3 +88,27 @@ CREATE TYPE order_status AS ENUM ('CREATED', 'READY', 'DELIVERED');
 ALTER TABLE "order"
 ADD COLUMN IF NOT EXISTS order_type order_type DEFAULT 'EAT_IN',
 ADD COLUMN IF NOT EXISTS order_status order_status DEFAULT 'CREATED';
+
+DELETE from "order";
+insert into "order" (id,reference,creation_datetime) values 
+(1,'ORD100','DELIVERED','TAKE_AWAY',now()),
+(2,'ORD102','CREATED','EAT_IN',now());
+--1) Déroulez l’approche database-side processing/push-down processing pour le
+--calcul de l’état de stock d’un ingrédient à un instant donné. Une fois que c’est bon,
+--invoquez la méthode dans la classe Main pour vérifier que le résultat soit le même
+--que celui obtenu à travers le calcul utilisant l’approche orienté objet, en vous
+--assurant à ce que les données utilisées soient identiques
+-- first
+SELECT 
+    unit,
+    SUM(
+        CASE 
+            WHEN type = 'OUT' THEN quantity * -1
+            ELSE quantity
+        END
+    ) AS actual_quantity
+FROM stock_movement
+WHERE id_ingredient = ?
+AND creation_datetime <= ?
+GROUP BY id_ingredient, unit;
+
